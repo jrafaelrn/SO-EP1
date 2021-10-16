@@ -1,1 +1,1 @@
-run="clear && javac *.java && java Escalonador simula"
+run="clear && javac *.java && java Escalonador"

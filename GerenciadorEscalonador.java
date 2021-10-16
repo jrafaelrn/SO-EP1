@@ -1,7 +1,5 @@
-import java.io.IOException;
-import java.lang.Runnable;
 import java.util.List;
-import java.util.*;
+import java.util.ArrayList;
 
 public class GerenciadorEscalonador {
 
@@ -66,7 +64,9 @@ public class GerenciadorEscalonador {
 
 
 
-  //Recebe uma lista de programas que foram lidos, cada array e um programa.
+  
+	//	Método principal para o Escalonador
+
   public void executaRoundRobin(){ 
 
 		System.out.println("INICIANDO ROUND ROBIN - QUANTUM = " + quantum);
@@ -92,13 +92,13 @@ public class GerenciadorEscalonador {
 						instrucao.processaInstrucoes();
 
 						instrucoesExecutadas += instrucao.getInstrucoesExecutadas();
-						trocas++;//toda vez que chama o processaInstrucao e uma troca de contexto								
+						trocas++;		//toda vez que chama o processaInstrucao e uma troca de contexto								
 
 						log = "Interrompendo " + programa.getNomePrograma() + " após " + instrucao.getInstrucoesExecutadas() + " instruções";
 						Log.gravarArquivoLog(quantum, log);
 
 						programa.setEstadoProcesso("Pronto");
-						listaDeProntos.add(listaDeProntos.remove(0));	//Remove do comeco e coloca no final da fila de prontos
+						listaDeProntos.add(listaDeProntos.remove(0));		//Remove do comeco e coloca no final da fila de prontos
 						decrementaTempoEspera_Bloqueados();
 						
 					}
@@ -181,26 +181,9 @@ public class GerenciadorEscalonador {
 
 
 
-  /////////////////////////////////////////////////////////////////////////////////////
- //              CALCULAR O TEMPO: MÉDIAS DE TROCAS, INSTRUCOES E PROGRAMAS           //
- //////////////////////////////////////////////////////////////////////////////////////
-
-  public double getMediaTrocasContexto(){
-		System.out.println("MEDIA DE TROCAS:  " + (trocas/totalProgramas) + " / QTD DE TROCAS: " + trocas + " / QTD PROGRAMAS: " + totalProgramas);  
-		return ((double) trocas/totalProgramas);		
-  }
-
-
-	public double getMediaInstrucoes(){
-		System.out.println("MEDIA DE INSTRUCOES:  " + (instrucoesExecutadas/trocas) + " / QTD DE INSTRUCOES: " + instrucoesExecutadas + " / QTD TROCAS: " + trocas); 
-		return ((double) instrucoesExecutadas/trocas);
-	}
-
-
-
-
-
-	public void decrementaTempoEspera_Bloqueados(){
+	//	3 (c) A cada processo que passe pelo estado executando, 
+	//	todos na fila de bloqueados tem seu tempo decrementado
+	private void decrementaTempoEspera_Bloqueados(){
 
 		for(BlocoDeControleDeProcessos processo : listaDeBloqueados)
 			processo.decrementaTempoEspera();
@@ -210,8 +193,9 @@ public class GerenciadorEscalonador {
 	}
 
 
+
 	//	3 (e) - Quando o tempo de espera de algum processo bloqueado chegar a zero
-	public void retiraZerados_Bloqueados(){
+	private void retiraZerados_Bloqueados(){
 
 		for(BlocoDeControleDeProcessos processo : listaDeBloqueados){
 
@@ -231,6 +215,25 @@ public class GerenciadorEscalonador {
 		}
 
 	}
+
+
+
+  /////////////////////////////////////////////////////////////////////////////////////
+	//            CALCULAR O TEMPO: MÉDIAS DE TROCAS, INSTRUCOES E PROGRAMAS           //
+	/////////////////////////////////////////////////////////////////////////////////////
+
+  public double getMediaTrocasContexto(){
+		System.out.println("MEDIA DE TROCAS:  " + (trocas/totalProgramas) + " / QTD DE TROCAS: " + trocas + " / QTD PROGRAMAS: " + totalProgramas);  
+		return ((double) trocas/totalProgramas);		
+  }
+
+
+	public double getMediaInstrucoes(){
+		System.out.println("MEDIA DE INSTRUCOES:  " + (instrucoesExecutadas/trocas) + " / QTD DE INSTRUCOES: " + instrucoesExecutadas + " / QTD TROCAS: " + trocas); 
+		return ((double) instrucoesExecutadas/trocas);
+	}
+
+
 
 
 	//////////////////////////////////////////////
