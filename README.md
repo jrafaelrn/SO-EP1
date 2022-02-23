@@ -59,6 +59,8 @@ Para execucar o programa, basta executar o comando: `java Escalonador` [args]
 
 Professor: Norton Trevisan Roman
 
-Aluno: Luiz Fernando Conceição dos Santos
-
 Aluna: Camila Felinto Suriao 
+
+Aluno: José Rafael R. Nascimento
+
+Aluno: Luiz Fernando Conceição dos Santos
